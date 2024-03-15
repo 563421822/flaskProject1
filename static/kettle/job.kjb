@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<job>
+  <name>Load CSV to MySQL</name>
+  <description>该作业从CSV文件加载数据并将其插入MySQL数据库。</description>
+  <job_version>1.0</job_version>
+  <job_category>ETL</job_category>
+  <modeler_version>1.0</modeler_version>
+  <properties>
+    <property>
+      <name>username</name>
+      <value>root</value>
+    </property>
+    <property>
+      <name>password</name>
+      <value></value>
+    </property>
+  </properties>
+  <transformation>
+    <name>Load CSV to MySQL</name>
+    <description>将数据从CSV文件加载到MySQL数据库的转换。</description>
+    <transformation_version>1.0</transformation_version>
+    <modeler_version>1.0</modeler_version>
+    <properties/>
+    <steps>
+      <step>
+        <name>Read CSV File</name>
+        <type>CSV</type>
+        <description>read data from csv file</description>
+        <id>0</id>
+        <partition_schema/>
+        <schema/>
+        <connection>MySQL_Connection</connection>
+        <filename>path/to/your/csv_file.csv</filename>
+        <field_name_type/>
+        <fields/>
+        <enclosure>"</enclosure>
+        <escape>\</escape>
+        <delimiter>,</delimiter>
+        <format>MS Excel</format>
+        <header>false</header>
+        <line_number>false</line_number>
+        <running_in_parallel>false</running_in_parallel>
+      </step>
+      <step>
+        <name>Insert to MySQL</name>
+        <type>MySQL</type>
+        <description>向MySQL数据库中插入数据。</description>
+        <id>1</id>
+        <partition_schema/>
+        <schema/>
+        <connection>your_connection_name</connection>
+        <table_name>your_table_name</table_name>
+        <commit_size>100</commit_size>
+        <running_in_parallel>false</running_in_parallel>
+        <fields>
+          <field>
+            <name>field1</name>
+            <column_name>field1</column_name>
+            <data_type>String</data_type>
+            <position>0</position>
+            <length>255</length>
+            <precision>0</precision>
+            <nullable>true</nullable>
+            <default_value/>
+            <extra/>
+          </field>
+          <!-- Add more fields as needed -->
+        </fields>
+      </step>
+    </steps>
+    <hops>
+      <hop>
+        <from>Read CSV File</from>
+        <to>Insert to MySQL</to>
+        <from_step_nr_in_transformation>0</from_step_nr_in_transformation>
+        <to_step_nr_in_transformation>1</to_step_nr_in_transformation>
+        <enabled>true</enabled>
+      </hop>
+    </hops>
+  </transformation>
+</job>
