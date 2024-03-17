@@ -57,15 +57,16 @@ def insert_book(data):
 def rec_bks():
     # 查出所借书籍的大类次数最多的大类
     sql = "SELECT bc.parent_id,COUNT(parent_id) AS count_value FROM lending l INNER JOIN books b ON l.book_id=b.id INNER JOIN book_categories bc ON b.type=bc.id WHERE l.debtor_id=:debtor_id GROUP BY bc.parent_id ORDER BY count_value DESC LIMIT 1"
-    parent_id, count_value = db.session.execute(sql, {"debtor_id": session.get("user_info")['id']}).fetchone()
+    result = db.session.execute(sql, {"debtor_id": session.get("user_info")['id']}).fetchone()
     # 查询该大类下的所有二级类目,随机取10条二级类目
+    parent_id = result["parent_id"] if result is not None else ""
     chd_bc = "SELECT id,category_name FROM book_categories WHERE parent_id=:parent_id ORDER BY RAND() LIMIT 10"
     r = db.session.execute(chd_bc, {"parent_id": parent_id})
     cld_cat = [dict(ro) for ro in r]
     arr = []
     for row in cld_cat:
-        ss = "SELECT * FROM books WHERE type=:type"
-        br = db.session.execute(ss, {"type": row.get("id")})
+        ss = "SELECT * FROM books WHERE type=:type AND id NOT IN (SELECT book_id FROM lending WHERE debtor_id=:debtor_id)"
+        br = db.session.execute(ss, {"type": row.get("id"), "debtor_id": session.get("user_info")['id']})
         # 将每个list存入新的大的list
         arr.append([dict(o) for o in br])
     return render_template("rec_books.html", cld_cat=cld_cat, clg_bks=arr)
