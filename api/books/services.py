@@ -65,7 +65,7 @@ def rec_bks():
     cld_cat = [dict(ro) for ro in r]
     arr = []
     for row in cld_cat:
-        ss = "SELECT * FROM books WHERE type=:type AND id NOT IN (SELECT book_id FROM lending WHERE debtor_id=:debtor_id)"
+        ss = "SELECT * FROM books WHERE type=:type AND id NOT IN (SELECT book_id FROM lending WHERE debtor_id=:debtor_id) ORDER BY RAND()"
         br = db.session.execute(ss, {"type": row.get("id"), "debtor_id": session.get("user_info")['id']})
         # 将每个list存入新的大的list
         arr.append([dict(o) for o in br])
