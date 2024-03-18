@@ -18,7 +18,7 @@ html = soup.find_all("div", class_="module3")
 root = []
 # 所有一级类目
 for i, md3_tag in enumerate(html):
-    father = {'id': i, 'category_name': md3_tag.find("div", class_="tt").get_text()}
+    father = {'id': i, 'title': md3_tag.find("div", class_="tt").get_text()}
     # print(md3_tag.find("div", class_="tt").get_text())
     ul_li = md3_tag.find("ul", class_="ul1 Z_clearfix").find_all("li")
     father_son_array = []
@@ -29,7 +29,7 @@ for i, md3_tag in enumerate(html):
         item_url: str = li.find("a")["href"]
         if item_url.startswith("/"):
             item_url = urlparse(response.url).scheme + "://" + urlparse(response.url).netloc + item_url
-            # print(item_title, item_url)
+            print(item_title, item_url)
             # 访问二级类目中的连接查看所有图书
             resp = requests.get(item_url, headers=headers)
             sp = BeautifulSoup(resp.text, "html.parser")
@@ -69,4 +69,4 @@ for i, md3_tag in enumerate(html):
 # 将数据写入JSON文件
 with open("../../static/kettle/my_data.json", "w") as f:
     json.dump(root, f)
-# print(json.dumps(root))
+print(json.dumps(root))
