@@ -14,13 +14,14 @@
         const tree = layui.tree;
         const $ = layui.$;
         $.ajax({
-            url: '/api/v1/books/classification', // 请替换为您的API地址
+            url: '/static/kettle/my_data.json', // 请替换为您的API地址
             method: 'GET',
             success: function (data) {
                 // 使用获取到的数据渲染树形结构
                 layui.tree.render({
                     elem: '#ID-tree-demo-showCheckbox',
                     data: data,
+                    isJump: true,
                     edit: ['add', 'update', 'del'] // 开启节点的右侧操作图标
                 });
             },
