@@ -48,3 +48,10 @@ def delete_user(user_id):
 @check_login
 def add_user():
     return add_usr(request.form)
+
+
+@users_bp.route('/logout', methods=['GET'])
+@check_login
+def logout():
+    session.clear()
+    return redirect(url_for('users.login_user'))
