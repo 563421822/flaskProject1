@@ -6,9 +6,19 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__, template_folder='../templates', static_folder='../static')
 app.config['SECRET_KEY'] = b'^\x11\xd7\x9c%\x81\xf5\xfd\xfcEq\x93F \\\xfc\xa2s\x87\x7fC>W\xa6'
+print("请输入MySQL连接地址：（127.0.0.1）")
+host = input()
+print("请输入端口：（3306）")
+port = input()
+print("输入登录用户名：")
+username = input()
+print("输入密码：")
+password = input()
 # 配置Flask应用和数据库连接
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@127.0.0.1:3306/test'
+app.config[
+    'SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://' + username + ':' + password + '@' + host + ':' + port + '/test'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_ECHO'] = True
 db = SQLAlchemy()
 db.init_app(app)
 # 设置日志级别和输出方式
