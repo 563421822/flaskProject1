@@ -2,8 +2,10 @@ import json
 
 from flask import render_template, jsonify, session
 from sqlalchemy import text
+from sqlalchemy.orm import aliased
 
 from api import db
+from api.books.model import BooksCategories, Books
 
 
 def fetch_all_books():
@@ -70,3 +72,30 @@ def rec_bks():
         # 将每个list存入新的大的list
         arr.append([dict(o) for o in br])
     return render_template("rec_books.html", cld_cat=cld_cat, clg_bks=arr)
+
+
+def synchrotron(file):
+    json_data = file.read().decode('utf-8')
+    data = json.loads(json_data)
+    for supertype in data:
+        bc_super = BooksCategories()
+        bc_super.category_name = supertype["title"]
+        db.session.add(bc_super)
+        db.session.commit()
+        for secondary in supertype["children"]:
+            bc_second = BooksCategories()
+            bc_second.category_name = secondary["title"]
+            bc_second.parent_id = bc_super.id
+            db.session.add(bc_second)
+            db.session.commit()
+            sec_child = secondary["children"] if "children" in secondary else []
+            for bk in sec_child:
+                book = Books()
+                book.title = bk["title"] if "title" in bk else ""
+                book.author = bk["author"] if "author" in bk else ""
+                book.publication_date = bk["publication_date"] if "publication_date" in bk else ""
+                book.type = bc_second.id
+                book.description = bk["description"] if "description" in bk else ""
+                db.session.add(book)
+            db.session.commit()
+    return jsonify(data)

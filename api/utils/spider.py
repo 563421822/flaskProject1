@@ -55,10 +55,16 @@ for i, md3_tag in enumerate(html):
                             for lbl in bk_entity:
                                 if "责任者" in lbl.get_text():
                                     entity["author"] = lbl.find("span").get_text()
+                                else:
+                                    entity["author"] = ""
                                 if re.search(r'\b日期\b|\b时间\b', lbl.get_text()):
                                     entity["publication_date"] = lbl.find("span").get_text()
+                                else:
+                                    entity["publication_date"] = ""
                                 if re.search(r'\b简介\b|\b附注\b', lbl.get_text()):
                                     entity["description"] = lbl.find("span").get_text()
+                                else:
+                                    entity["description"] = ""
                             entity["type"] = idx
                             entity["href"] = li_url
                             sec_arr.append(entity)

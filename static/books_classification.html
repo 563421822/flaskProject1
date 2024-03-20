@@ -14,7 +14,7 @@
         const tree = layui.tree;
         const $ = layui.$;
         $.ajax({
-            url: '/static/kettle/my_data.json', // 请替换为您的API地址
+            url: '/api/v1/books/classification', // 请替换为您的API地址
             method: 'GET',
             success: function (data) {
                 // 使用获取到的数据渲染树形结构

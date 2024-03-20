@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 
 from api import check_login
-from api.books.services import fetch_all_books, classify_books, fetch_bk, insert_book, rec_bks
+from api.books.services import fetch_all_books, classify_books, fetch_bk, insert_book, rec_bks, synchrotron
 
 books_bp = Blueprint('books', __name__, url_prefix="/api/v1/books")
 
@@ -35,3 +35,10 @@ def isrt_book():
 @check_login
 def rec_books():
     return rec_bks()
+
+
+@books_bp.route('/syndata', methods=['POST'])
+@check_login
+def syndata():
+    file = request.files['file']
+    return synchrotron(file)
