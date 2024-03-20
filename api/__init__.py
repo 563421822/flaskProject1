@@ -6,6 +6,8 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__, template_folder='../templates', static_folder='../static')
 app.config['SECRET_KEY'] = b'^\x11\xd7\x9c%\x81\xf5\xfd\xfcEq\x93F \\\xfc\xa2s\x87\x7fC>W\xa6'
+
+print("\033[1m\033[32m" + "请准备好MySQL中名为’test‘的数据库" + "\033[22m\033[39m")
 print("请输入MySQL连接地址：（127.0.0.1）")
 host = input()
 print("请输入端口：（3306）")
