@@ -29,7 +29,7 @@ def classify_books():
         rl = [dict(ro) for ro in r]
         row["children"] = rl
         for ch in rl:
-            ss = "SELECT id,title FROM books WHERE type=" + str(ch.get("id"))
+            ss = "SELECT id,title,url AS href FROM books WHERE type=" + str(ch.get("id"))
             br = db.session.execute(ss, {"type": ch.get("id")})
             brw = [dict(o) for o in br]
             ch["children"] = brw
