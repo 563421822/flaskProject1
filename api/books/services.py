@@ -96,6 +96,7 @@ def synchrotron(file):
                 book.publication_date = bk["publication_date"] if "publication_date" in bk else ""
                 book.type = bc_second.id
                 book.description = bk["description"] if "description" in bk else ""
+                book.url = bk["href"] if "href" in bk else ""
                 db.session.add(book)
             db.session.commit()
     return jsonify(data)

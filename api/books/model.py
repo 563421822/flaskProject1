@@ -18,3 +18,4 @@ class Books(db.Model):
     publication_date = Column(Date)
     type = Column(Integer, ForeignKey(BooksCategories.id))
     description = Column(String(250))
+    url = Column(String(200))
